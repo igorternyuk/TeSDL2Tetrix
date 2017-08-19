@@ -10,7 +10,7 @@ Well::Well(): data_{false}
 #endif
 }
 
-void Well::clear()
+void Well::clear() noexcept
 {
     for(auto y = 0; y <= HEIGHT; ++y)
     {

@@ -1,15 +1,11 @@
 #include "model.h"
 #include "modellistener.h"
 #include <iostream>
-#include <stdlib.h>
-#include <time.h>
 
-Model::Model()
-{
-    srand(time(0));
-    tetraminoActive_= Tetramino(static_cast<Tetramino::Type>(rand() % Tetramino::NUM_SHAPES));
-    tetraminoNext_= Tetramino(static_cast<Tetramino::Type>(rand() % Tetramino::NUM_SHAPES));
-}
+Model::Model():
+    tetraminoActive_{static_cast<Tetramino::Type>(rand() % Tetramino::NUM_SHAPES)},
+    tetraminoNext_{static_cast<Tetramino::Type>(rand() % Tetramino::NUM_SHAPES)}
+{}
 
 void Model::move(Tetramino::Direction dir)
 {

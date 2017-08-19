@@ -12,6 +12,8 @@
 class Model;
 class Controller;
 
+using TextAndRect = std::pair<SDL_Texture*, SDL_Rect>;
+
 class View : public ModelListener
 {
 public:
@@ -53,9 +55,14 @@ private:
     SDL_Window *pWindow_;
     SDL_Renderer *pRenderer_;
     TTF_Font *pFontLarge_, *pFontSmall_;
-    std::map<int, std::pair<SDL_Texture*, SDL_Rect>> textures_;
-    std::array<std::pair<SDL_Texture*, SDL_Rect>, NUM_DIGITS> texturesDigits_;
-    bool draw_{true};
+    std::map<int, TextAndRect> textures_;
+    std::array<TextAndRect, NUM_DIGITS> texturesDigits_;
+    bool running_{true}, draw_{true};
+    float currTime_{0.f}, prevTime_{0.f}, diffTime_{0.f}, frameTime_{0.f};
+    //Three phases of the game
+    void inputPhase();
+    void updatePhase();
+    void drawPhase();
     void loadFonts();
     void loadTextures();
     void drawWell() const;
@@ -63,11 +70,11 @@ private:
     void drawTetramino(const Tetramino & tetramino) const;
     void drawActiveTetramino() const;
     void drawPreview() const;
-    void drawGameInfo();
-    void drawGameStatus();
+    void drawGameInfo() const;
+    void drawGameStatus() const;
     void getTextureAndRect(const char *text, TTF_Font *font, SDL_Color color,
                            SDL_Texture *&texture, SDL_Rect &rect);
-    void drawNumber(int num, int posX, int posY, int step);
+    void drawNumber(int num, int posX, int posY, int step) const;
 };
 
 #endif // VIEW_H

@@ -41,89 +41,102 @@ View::~View()
 void View::run()
 {
     //Main loop of the game
-    bool done{false};
-    SDL_Event event;
-    float currTime = SDL_GetTicks(), prevTime = 0.f, diffTime = 0.f, frameTime = 0.f;
-    while(!done)
+    while(running_)
     {
-        prevTime = currTime;
-        currTime = SDL_GetTicks();
-        diffTime= (currTime - prevTime) / 1000.0f;
-        frameTime += diffTime;
-        if(frameTime >= pModel_->calcSpeed())
-        {
-#ifdef DEBUG
-            std::cout << "Speed = " << pModel_->calcSpeed() << std::endl;
-#endif
-            pModel_->step();
-            frameTime = 0.f;
-        }
-
-        if(SDL_PollEvent(&event))
-        {
-            switch(event.type)
-            {
-                case SDL_QUIT:
-                    done = true;
-                    break;
-                case SDL_KEYUP:
-                    switch(event.key.keysym.sym)
-                    {
-                        case SDLK_UP:
-                            pController_->rotateLeft();
-                            break;
-                        case SDLK_DOWN:
-                            pController_->rotateRight();
-                            break;
-                        case SDLK_LEFT:
-                            pController_->moveLeft();
-                            break;
-                        case SDLK_RIGHT:
-                            pController_->moveRight();
-                            break;
-                        case SDLK_SPACE:
-                            pController_->dropDown();
-                            break;
-                        case SDLK_n:
-                            pController_->newGame();
-                            break;
-                        case SDLK_p:
-                            pController_->togglePause();
-                            break;
-                        case SDLK_q:
-                            done = true;
-                            break;
-                    }
-                    break;
-            }
-        }
-        if(draw_)
-        {
-            SDL_SetRenderDrawColor(pRenderer_, 0,0,0,255);
-            SDL_RenderClear(pRenderer_);
-            //Drawing stuff
-            drawWell();
-            if(pModel_->getGameState() != Model::GameState::GAME_OVER)
-                drawActiveTetramino();
-            drawPreview();
-            drawGameInfo();
-            drawGameStatus();
-            SDL_RenderPresent(pRenderer_);
-            //Score int the window title
-            std::stringstream ss;
-            ss << "Tetrix score: " << pModel_->getScore();
-#ifdef DEBUG
-            std::cout << ss.str().c_str() << std::endl;
-#endif
-            SDL_SetWindowTitle(pWindow_, ss.str().c_str());
-            draw_ = false;
-        }
+        inputPhase();
+        updatePhase();
+        drawPhase();
     }
 }
 
 void View::updateView()
 {
     draw_ = true;
+}
+
+void View::inputPhase()
+{
+    SDL_Event event;
+    while(SDL_PollEvent(&event))
+    {
+        switch(event.type)
+        {
+            case SDL_QUIT:
+                running_ = false;
+                break;
+            case SDL_KEYUP:
+                switch(event.key.keysym.sym)
+                {
+                    case SDLK_UP:
+                        pController_->rotateLeft();
+                        break;
+                    case SDLK_DOWN:
+                        pController_->rotateRight();
+                        break;
+                    case SDLK_LEFT:
+                        pController_->moveLeft();
+                        break;
+                    case SDLK_RIGHT:
+                        pController_->moveRight();
+                        break;
+                    case SDLK_SPACE:
+                        pController_->dropDown();
+                        break;
+                    case SDLK_n:
+                        pController_->newGame();
+                        break;
+                    case SDLK_p:
+                        pController_->togglePause();
+                        break;
+                    case SDLK_q:
+                    case SDLK_ESCAPE:
+                        running_ = false;
+                        break;
+                }
+                break;
+        }
+    }
+}
+
+void View::updatePhase()
+{
+    prevTime_ = currTime_;
+    currTime_ = SDL_GetTicks();
+    diffTime_= (currTime_ - prevTime_) / 1000.0f;
+    frameTime_ += diffTime_;
+    if(frameTime_ >= pModel_->calcSpeed())
+    {
+#ifdef DEBUG
+        std::cout << "Speed = " << pModel_->calcSpeed() << std::endl;
+#endif
+        pModel_->step();
+        frameTime_ = 0.f;
+    }
+}
+
+void View::drawPhase()
+{
+    if(draw_)
+    {
+        SDL_SetRenderDrawColor(pRenderer_, 0,0,0,255);
+        SDL_RenderClear(pRenderer_);
+        //Drawing stuff
+        drawWell();
+        if(pModel_->getGameState() != Model::GameState::GAME_OVER)
+            drawActiveTetramino();
+        drawPreview();
+        drawGameInfo();
+        drawGameStatus();
+        SDL_RenderPresent(pRenderer_);
+        //Score int the window title
+        std::stringstream ss;
+        ss << "Tetrix score: " << pModel_->getScore();
+#ifdef DEBUG
+        std::cout << ss.str().c_str() << std::endl;
+#endif
+        SDL_SetWindowTitle(pWindow_, ss.str().c_str());
+        draw_ = false;
+    }
 }
 
 void View::loadFonts()
@@ -266,33 +279,33 @@ void View::drawPreview() const
     }
 }
 
-void View::drawGameInfo()
+void View::drawGameInfo() const
 {
-    SDL_RenderCopy(pRenderer_, textures_[TEXTURE_NEXT_PIECE].first, NULL,
-                   &textures_[TEXTURE_NEXT_PIECE].second);
-    SDL_RenderCopy(pRenderer_, textures_[TEXTURE_SCORE].first, NULL,
-                   &textures_[TEXTURE_SCORE].second);
+    SDL_RenderCopy(pRenderer_, textures_.at(TEXTURE_NEXT_PIECE).first, NULL,
+                   &textures_.at(TEXTURE_NEXT_PIECE).second);
+    SDL_RenderCopy(pRenderer_, textures_.at(TEXTURE_SCORE).first, NULL,
+                   &textures_.at(TEXTURE_SCORE).second);
     drawNumber(pModel_->getScore(), 390, 260, 25);
-    SDL_RenderCopy(pRenderer_, textures_[TEXTURE_LEVEL].first, NULL,
-                   &textures_[TEXTURE_LEVEL].second);
+    SDL_RenderCopy(pRenderer_, textures_.at(TEXTURE_LEVEL).first, NULL,
+                   &textures_.at(TEXTURE_LEVEL).second);
     drawNumber(pModel_->getLevel(), 390, 360, 25);
-    SDL_RenderCopy(pRenderer_, textures_[TEXTURE_LINES_REMOVED].first, NULL,
-                   &textures_[TEXTURE_LINES_REMOVED].second);
+    SDL_RenderCopy(pRenderer_, textures_.at(TEXTURE_LINES_REMOVED).first, NULL,
+                   &textures_.at(TEXTURE_LINES_REMOVED).second);
     drawNumber(pModel_->getNumRemovedLines(), 390, 460, 25);
 
 }
 
-void View::drawGameStatus()
+void View::drawGameStatus() const
 {
     switch(pModel_->getGameState())
     {
         case Model::GameState::PAUSE:
-            SDL_RenderCopy(pRenderer_, textures_[TEXTURE_PAUSE].first, NULL,
-                           &textures_[TEXTURE_PAUSE].second);
+            SDL_RenderCopy(pRenderer_, textures_.at(TEXTURE_PAUSE).first, NULL,
+                           &textures_.at(TEXTURE_PAUSE).second);
             break;
         case Model::GameState::GAME_OVER:
-            SDL_RenderCopy(pRenderer_, textures_[TEXTURE_GAMEOVER].first, NULL,
-                           &textures_[TEXTURE_GAMEOVER].second);
+            SDL_RenderCopy(pRenderer_, textures_.at(TEXTURE_GAMEOVER).first, NULL,
+                           &textures_.at(TEXTURE_GAMEOVER).second);
             break;
         default:
             break;
@@ -308,15 +321,16 @@ void View::getTextureAndRect(const char *text, TTF_Font *font, SDL_Color color,
     rect.h = surface->h;
 }
 
-void View::drawNumber(int num, int posX, int posY, int step)
+void View::drawNumber(int num, int posX, int posY, int step) const
 {
     std::string numberAsString = std::to_string(num);
     for(unsigned short int i = 0; i < numberAsString.size(); ++i)
     {
         int index = std::atoi(numberAsString.substr(i, 1).c_str());
-        texturesDigits_[index].second.x = posX + i * step;
-        texturesDigits_[index].second.y = posY;
-        SDL_RenderCopy(pRenderer_, texturesDigits_[index].first, NULL,
-                       &texturesDigits_[index].second);
+        SDL_Rect rect = texturesDigits_.at(index).second;
+        rect.x = posX + i * step;
+        rect.y = posY;
+        SDL_RenderCopy(pRenderer_, texturesDigits_.at(index).first, NULL,
+                       &rect);
     }
 }

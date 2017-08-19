@@ -17,16 +17,16 @@ public:
     Model(Model&&) = delete;
     Model& operator=(const Model&) = delete;
     Model& operator=(Model&&) = delete;
-    inline int getScore() const { return score_; }
-    inline int getNumRemovedLines() const { return numRemovedLines_; }
-    inline int getLevel() const { return level_; }
-    inline float calcSpeed() const { return 3.0f / (2.0f + level_); }
-    inline GameState getGameState() const { return gameState_; }
-    inline int getWellWidth() const { return Well::WIDTH; }
-    inline int getWellHeight() const { return Well::HEIGHT; }
-    inline bool isWellCellSolid(int x, int y) const { return well_.isCellSolid(x, y); }
-    inline const Tetramino& getActiveTetromino() const { return tetraminoActive_; }
-    inline const Tetramino& getNextTetromino() const { return tetraminoNext_; }
+    inline int getScore() const noexcept { return score_; }
+    inline int getNumRemovedLines() const noexcept { return numRemovedLines_; }
+    inline int getLevel() const noexcept { return level_; }
+    inline float calcSpeed() const noexcept { return 3.0f / (2.0f + level_); }
+    inline GameState getGameState() const noexcept { return gameState_; }
+    inline int getWellWidth() const noexcept { return Well::WIDTH; }
+    inline int getWellHeight() const noexcept { return Well::HEIGHT; }
+    inline bool isWellCellSolid(int x, int y) const noexcept { return well_.isCellSolid(x, y); }
+    inline const Tetramino& getActiveTetromino() const noexcept { return tetraminoActive_; }
+    inline const Tetramino& getNextTetromino() const noexcept { return tetraminoNext_; }
     void move(Tetramino::Direction dir);
     void rotate(Tetramino::Direction dir);
     void step();

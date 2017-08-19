@@ -12,19 +12,16 @@ public:
     enum class Type {I, J, L, O, S, T, Z};
     enum class Direction{LEFT, RIGHT};
     enum {NUM_BLOCKS = 4, NUM_SHAPES = 7};
-    struct Block
-    {
-        int x, y;
-    };
+    struct Block { int x, y; };
     explicit Tetramino(Type type = Type::I);
     void move(Direction dir);
     void rotate(Direction dir);
     void stepDown();
-    inline int x() const { return x_; }
-    inline int y() const { return y_; }
-    inline Type type() const { return type_; }
-    inline std::array<Block, NUM_BLOCKS> blocks() const { return blocks_; }
-    std::vector<std::string> shape() const;
+    inline int x() const noexcept { return x_; }
+    inline int y() const noexcept { return y_; }
+    inline Type type() const noexcept { return type_; }
+    inline std::array<Block, NUM_BLOCKS> blocks() const noexcept { return blocks_; }
+    std::vector<std::string> shape() const noexcept;
 private:
     static struct Shapes
     {

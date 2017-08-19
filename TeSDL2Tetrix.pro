@@ -1,5 +1,5 @@
 TEMPLATE = app
-#CONFIG += console c++14
+CONFIG += c++1z
 CONFIG -= app_bundle
 CONFIG -= qt
 
@@ -12,9 +12,9 @@ SOURCES += main.cpp \
     view.cpp \
     tetramino.cpp
 
-LIBS += -lSDL2  -lSDL2_ttf -lSDL2_gfx
+LIBS += -lSDL2  -lSDL2_ttf
 
-QMAKE_CXXFLAGS += -std=c++14
+#QMAKE_CXXFLAGS += -std=c++14
 
 HEADERS += \
     well.h \
