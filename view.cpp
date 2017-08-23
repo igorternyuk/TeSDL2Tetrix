@@ -320,6 +320,7 @@ void View::getTextureAndRect(const char *text, TTF_Font *font, SDL_Color color,
     texture = SDL_CreateTextureFromSurface(pRenderer_, surface);
     rect.w = surface->w;
     rect.h = surface->h;
+    SDL_FreeSurface(surface);
 }
 
 void View::drawNumber(int num, int posX, int posY, int step) const
