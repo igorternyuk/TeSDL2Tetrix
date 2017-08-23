@@ -61,7 +61,7 @@ private:
     float currTime_{0.f}, prevTime_{0.f}, diffTime_{0.f}, frameTime_{0.f};
     //Three phases of the game
     void inputPhase();
-    void updatePhase();
+    //void updatePhase();
     void drawPhase();
     void loadFonts();
     void loadTextures();

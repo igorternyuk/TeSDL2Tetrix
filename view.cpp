@@ -44,7 +44,7 @@ void View::run()
     while(running_)
     {
         inputPhase();
-        updatePhase();
+        //updatePhase(); - I use additional thread instead
         drawPhase();
     }
 }
@@ -90,6 +90,7 @@ void View::inputPhase()
                         break;
                     case SDLK_q:
                     case SDLK_ESCAPE:
+                        pController_->stopTimerThread();
                         running_ = false;
                         break;
                 }
@@ -98,7 +99,7 @@ void View::inputPhase()
     }
 }
 
-void View::updatePhase()
+/*void View::updatePhase()
 {
     prevTime_ = currTime_;
     currTime_ = SDL_GetTicks();
@@ -109,10 +110,10 @@ void View::updatePhase()
 #ifdef DEBUG
         std::cout << "Speed = " << pModel_->calcSpeed() << std::endl;
 #endif
-        pModel_->step();
+        pController_->step();
         frameTime_ = 0.f;
     }
-}
+}*/
 
 void View::drawPhase()
 {

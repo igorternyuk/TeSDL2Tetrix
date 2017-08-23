@@ -11,7 +11,7 @@ class Model
 {
 public:
     enum class GameState{PLAY, PAUSE, GAME_OVER};
-    enum Scores{ONE_ROW = 100, TWO_ROWS = 300, THREE_ROWS = 500, FOUR_ROWS = 1000};
+    enum Scores{ONE_ROW = 100, TWO_ROWS = 500, THREE_ROWS = 700, FOUR_ROWS = 1500};
     explicit Model();
     Model(const Model&) = delete;
     Model(Model&&) = delete;
