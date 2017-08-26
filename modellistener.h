@@ -1,10 +1,7 @@
-#ifndef MODELLISTENER_H
-#define MODELLISTENER_H
+#pragma once
 
 class ModelListener
 {
 public:
     virtual void updateView() = 0;
 };
-
-#endif // MODELLISTENER_H

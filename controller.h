@@ -1,5 +1,5 @@
-#ifndef CONTROLLER_H
-#define CONTROLLER_H
+#pragma once
+
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_thread.h>
 
@@ -30,5 +30,3 @@ private:
     static int thread_func_wrapper (void* data);
     int thread_func (void);
 };
-
-#endif // CONTROLLER_H

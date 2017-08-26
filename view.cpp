@@ -1,4 +1,8 @@
 #include "view.h"
+
+#include "model.h"
+#include "controller.h"
+
 #include <stdlib.h>
 #include <time.h>
 #include <stdexcept>
@@ -6,8 +10,6 @@
 #include <sstream>
 #include <string.h>
 #include <algorithm>
-#include "model.h"
-#include "controller.h"
 
 View::View(Model *pModel, Controller *pController):
     pModel_(pModel), pController_(pController)
@@ -35,6 +37,7 @@ View::~View()
         SDL_DestroyTexture(it->second.first);
     SDL_DestroyRenderer(pRenderer_);
     SDL_DestroyWindow(pWindow_);
+    TTF_Quit();
     SDL_Quit();
 }
 

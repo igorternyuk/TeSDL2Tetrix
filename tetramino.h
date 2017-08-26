@@ -1,5 +1,4 @@
-#ifndef TETRAMINO_H
-#define TETRAMINO_H
+#pragma once
 
 #include <SDL2/SDL.h>
 #include <vector>
@@ -17,11 +16,12 @@ public:
     void move(Direction dir);
     void rotate(Direction dir);
     void stepDown();
-    inline int x() const noexcept { return x_; }
-    inline int y() const noexcept { return y_; }
-    inline Type type() const noexcept { return type_; }
-    inline std::array<Block, NUM_BLOCKS> blocks() const noexcept { return blocks_; }
-    std::vector<std::string> shape() const noexcept;
+    inline auto x() const noexcept { return x_; }
+    inline auto y() const noexcept { return y_; }
+    inline auto type() const noexcept { return type_; }
+    inline const std::array<Block, NUM_BLOCKS>& blocks() const noexcept {
+        return blocks_; }
+    const std::vector<std::string>& shape() const noexcept;
 private:
     static struct Shapes
     {
@@ -184,5 +184,3 @@ private:
     std::array<Block, NUM_BLOCKS> blocks_;
     void updateBlocks();
 };
-
-#endif // TETRAMINO_H

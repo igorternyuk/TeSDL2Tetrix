@@ -1,10 +1,10 @@
-#include <iostream>
-#include <stdexcept>
-#include <stdlib.h>
-#include <time.h>
 #include "model.h"
 #include "controller.h"
 #include "view.h"
+
+#include <iostream>
+#include <stdexcept>
+#include <ctime>
 
 int main()
 {

@@ -1,13 +1,15 @@
-#ifndef VIEW_H
-#define VIEW_H
+#pragma once
+
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
-#include <array>
-#include <map>
-#include <string>
+
 #include "well.h"
 #include "tetramino.h"
 #include "modellistener.h"
+
+#include <array>
+#include <map>
+#include <string>
 
 class Model;
 class Controller;
@@ -59,6 +61,7 @@ private:
     std::array<TextAndRect, NUM_DIGITS> texturesDigits_;
     bool running_{true}, draw_{true};
     float currTime_{0.f}, prevTime_{0.f}, diffTime_{0.f}, frameTime_{0.f};
+
     //Three phases of the game
     void inputPhase();
     //void updatePhase();
@@ -76,5 +79,3 @@ private:
                            SDL_Texture *&texture, SDL_Rect &rect);
     void drawNumber(int num, int posX, int posY, int step) const;
 };
-
-#endif // VIEW_H

@@ -1,4 +1,5 @@
 #include "well.h"
+
 #include <iostream>
 
 Well::Well(): data_{false}
@@ -19,6 +20,7 @@ void Well::clear() noexcept
     }
 }
 
+#ifdef DEBUG
 void Well::print() const
 {
     for(auto y = 0; y <= HEIGHT; ++y)
@@ -31,3 +33,4 @@ void Well::print() const
         std::cout << std::endl;
     }
 }
+#endif

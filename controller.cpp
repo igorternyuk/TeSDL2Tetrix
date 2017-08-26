@@ -1,8 +1,9 @@
+#include "controller.h"
+
+#include "model.h"
 #ifdef DEBUG
 #include <iostream>
 #endif
-#include "controller.h"
-#include "model.h"
 
 Controller::Controller(Model *pModel):
     pModel_(pModel)

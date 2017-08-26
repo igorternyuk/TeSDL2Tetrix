@@ -51,10 +51,10 @@ void Tetramino::stepDown()
     updateBlocks();
 }
 
-std::vector<std::string> Tetramino::shape() const noexcept
+const std::vector<std::__cxx11::string> &Tetramino::shape() const noexcept
 {
     auto pos = type_ == Type::O ? 0 : angle_;
-    return shapes_.data[static_cast<int>(type_)][pos];
+    return shapes_.data.at(static_cast<int>(type_)).at(pos);
 }
 
 void Tetramino::updateBlocks()
