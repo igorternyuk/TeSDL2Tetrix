@@ -3,12 +3,12 @@
 #include "model.h"
 #include "controller.h"
 
-#include <stdlib.h>
-#include <time.h>
+#include <cstdlib>
+#include <ctime>
 #include <stdexcept>
 #include <iostream>
 #include <sstream>
-#include <string.h>
+#include <cstring>
 #include <algorithm>
 
 View::View(Model *pModel, Controller *pController):
@@ -65,6 +65,7 @@ void View::inputPhase()
         switch(event.type)
         {
             case SDL_QUIT:
+                pController_->stopTimerThread();
                 running_ = false;
                 break;
             case SDL_KEYUP:

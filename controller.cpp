@@ -16,7 +16,7 @@ Controller::~Controller()
 #ifdef DEBUG
     std::cout << "Controller destructor is working ... " << std::endl;
 #endif
-    SDL_WaitThread(pThread_, NULL);
+   // SDL_WaitThread(pThread_, NULL);
 }
 
 void Controller::moveLeft()
@@ -62,6 +62,7 @@ void Controller::togglePause()
 void Controller::stopTimerThread()
 {
     isGameRunnig_ = false;
+    SDL_WaitThread(pThread_, NULL);
 }
 
 int Controller::thread_func_wrapper(void *data)
