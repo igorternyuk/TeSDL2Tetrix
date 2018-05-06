@@ -1,6 +1,6 @@
-#include "model.h"
-#include "controller.h"
-#include "view.h"
+#include "model.hpp"
+#include "controller.hpp"
+#include "view.hpp"
 
 #include <iostream>
 #include <stdexcept>

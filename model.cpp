@@ -1,6 +1,6 @@
-#include "model.h"
+#include "model.hpp"
 
-#include "modellistener.h"
+#include "modellistener.hpp"
 #include <iostream>
 
 Model::Model():

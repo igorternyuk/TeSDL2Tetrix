@@ -1,7 +1,7 @@
 #pragma once
 
-#include "well.h"
-#include "tetramino.h"
+#include "well.hpp"
+#include "tetramino.hpp"
 
 #include <list>
 

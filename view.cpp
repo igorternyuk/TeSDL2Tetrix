@@ -1,7 +1,7 @@
-#include "view.h"
+#include "view.hpp"
 
-#include "model.h"
-#include "controller.h"
+#include "model.hpp"
+#include "controller.hpp"
 
 #include <cstdlib>
 #include <ctime>
@@ -14,17 +14,12 @@
 View::View(Model *pModel, Controller *pController):
     pModel_(pModel), pController_(pController)
 {
-    if(SDL_Init(SDL_INIT_VIDEO) != 0)
-    {
-        //SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error", SDL_GetError(), NULL);
-        const char *msg = SDL_GetError();
-        SDL_Quit();
-        throw std::runtime_error(msg);
-    }
-    SDL_CreateWindowAndRenderer(WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_OPENGL, &pWindow_, &pRenderer_);
+    SDL_CreateWindowAndRenderer(WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_OPENGL,
+                                &pWindow_, &pRenderer_);
     SDL_SetWindowTitle(pWindow_, TITLE_OF_PROGRAM);
-    SDL_SetWindowPosition(pWindow_, WINDOW_X, WINDOW_Y);
-    TTF_Init();
+    SDL_SetWindowPosition(pWindow_,
+                          (sdlInitializer_.screenWidth - WINDOW_WIDTH) / 2,
+                          (sdlInitializer_.screenHeight - WINDOW_HEIGHT) / 2);
     loadFonts();
     loadTextures();
 }
@@ -37,8 +32,6 @@ View::~View()
         SDL_DestroyTexture(it->second.first);
     SDL_DestroyRenderer(pRenderer_);
     SDL_DestroyWindow(pWindow_);
-    TTF_Quit();
-    SDL_Quit();
 }
 
 void View::run()

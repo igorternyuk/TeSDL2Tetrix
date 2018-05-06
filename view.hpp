@@ -3,9 +3,10 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 
-#include "well.h"
-#include "tetramino.h"
-#include "modellistener.h"
+#include "sdl2initializer.hpp"
+#include "well.hpp"
+#include "tetramino.hpp"
+#include "modellistener.hpp"
 
 #include <array>
 #include <map>
@@ -31,11 +32,10 @@ private:
     const char *TITLE_OF_PROGRAM = "TeSDL2Tetrix";
     const char *PATH_TO_FONT_SMALL = "Resources/Fonts/orbitron-light.ttf";
     const char *PATH_TO_FONT_LARGE = "Resources/Fonts/orbitron-medium.ttf";
-    enum {
+    enum
+    {
         WINDOW_WIDTH  = 700 / 2 + 6 * 35,
         WINDOW_HEIGHT = 700,
-        WINDOW_X = (1366 - WINDOW_WIDTH) / 2,
-        WINDOW_Y = (768 - WINDOW_HEIGHT) / 2,
         NEXT_TETRAMINO_PREVIEW_X = 390,
         NEXT_TETRAMINO_PREVIEW_Y = 70,
         BLOCK_SIZE = 35,
@@ -52,6 +52,7 @@ private:
         TEXTURE_PAUSE,
         TEXTURE_GAMEOVER
     };
+    SDLInitObject sdlInitializer_;
     Model *pModel_;
     Controller *pController_;
     SDL_Window *pWindow_;

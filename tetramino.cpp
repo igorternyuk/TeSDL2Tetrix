@@ -1,4 +1,4 @@
-#include "tetramino.h"
+#include "tetramino.hpp"
 
 Tetramino::Tetramino(Type type):
     type_(type),angle_{0},
